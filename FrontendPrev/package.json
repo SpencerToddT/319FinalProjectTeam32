@@ -1,0 +1,19 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "Frontend for final project 319 Team 32",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "319FinalProjectTeam32"
+  },
+  "author": "Spencer Thiele",
+  "license": "ISC",
+  "dependencies": {
+    "Express": "^3.0.1",
+    "tailwind": "^4.0.0"
+  }
+}
