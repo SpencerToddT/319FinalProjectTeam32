@@ -66,9 +66,7 @@ function App() {
 
   const addToSingleCart = (el) => {
     setCartSingle([...singleCart, el]);
-  };
-
-  
+  };  
   
   const removeFromCart = (el) => {
         let itemFound = false;
@@ -99,6 +97,7 @@ function App() {
     </div>
     </div>
   ));
+
   const listItems = product.map((el) => (
     <div key={el.id}>
       <img class="img-fluid" src={el.image} width = {100} />
@@ -115,7 +114,6 @@ function App() {
     return hmot.length;
   }
   //--------------------------
-
   
   //APP Functions
   function order(useremail, username)
@@ -138,7 +136,6 @@ function App() {
     setQuery("");
   }
 
-
   const handleChangeS = (e) => {
     setQuery(e.target.value);
     console.log(
@@ -155,9 +152,10 @@ function App() {
     });
     setProductsCategory(results);
   };
-
   //----------------------------------------------------------------------------------------------------------------
-  // ENDS HERE                   <<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  // END Cart HERE                   <<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
 
   const [addNewProduct, setAddNewProduct] = useState({
     _id: 0,
@@ -275,7 +273,6 @@ function App() {
       <h1><b>Title</b><br /> {el.title}</h1> <br />
       <h1><b>Category</b><br /> {el.category}</h1> <br />
       <h1><b>Price</b><br /> {el.price}</h1> <br />
-      {/*<h1><b>Rate</b><br /> {el.rating.rate} and Count:{el.rating.count}</h1> <br />*/}
       </div>
     </div>
   ));
@@ -342,6 +339,7 @@ function App() {
   }
 
 
+  //Renders here ==================================================================================
   const render_products = (ProductsCategory) => {
     return (
       <div className="category-section fixed">
@@ -770,6 +768,8 @@ function App() {
       </div>
     )
   }
+// End of Renders -----------------------------------------------------------------------------------------
+//  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
   if(view == 0)
