@@ -14,7 +14,7 @@ app.use("/images", express.static("images"));
    useNewUrlParser: true,
    useUnifiedTopology: true,
  });
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 4000;
 const host = "localhost";
 app.listen(port, () => {
   console.log(`App listening at http://%s:%s`, host, port);
@@ -55,7 +55,6 @@ app.post("/insert", async (req, res) => {
     description: pdescription,
     category: pcategory,
     image: pimage,
-    rating: { rate: prate, count: pcount },
   });
   try {
     // await formData.save();

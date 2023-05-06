@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
+import { Categories } from "./Categories";
+
 function App() {
 
-  const [view, setView] = useState(1);
+  const [view, setView] = useState(0);
   const [product, setProduct] = useState([]);
   const [oneProduct, setOneProduct] = useState([]);
   const [viewer1, setViewer1] = useState(false);
@@ -10,6 +12,152 @@ function App() {
   const [checked4, setChecked4] = useState(false);
   const [index, setIndex] = useState(0);
   const [updatePrice, setPrice] = useState(0);
+  const [ProductsCategory, setProductsCategory] = useState(product);
+  const [query, setQuery] = useState("");
+  const [ProductsUnfiltered, setProductsUnfiltered] = useState(product);
+  const [cart, setCart] = useState([]);
+  const [singleCart, setCartSingle] = useState([]);
+  const [cartTotal, setCartTotal] = useState(0);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+
+  //CART ASSIGNMENT ===========================================================================
+  const handleChangeName = (event) => {
+    // 👇 Get input value from "event"
+    setName(event.target.value);
+  };
+
+  const handleChangeEmail = (event) => {
+    // 👇 Get input value from "event"
+    setEmail(event.target.value);
+  };
+
+  //SHOP FUNCTIONS
+  useEffect(() => {
+    total();
+  }, [cart]);
+  
+  const total = () => {
+    let totalVal = 0;
+    for (let i = 0; i < cart.length; i++) {
+      totalVal += cart[i].price;
+    }
+    setCartTotal(totalVal);
+  };
+
+  function inSingle(el) {
+    for(let i = 0; i < singleCart.length; i++)
+    {
+      if(el.id == singleCart[i].id)
+      {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const addToCart = (el) => {
+    setCart([...cart, el]);
+    if(!inSingle(el))
+    {
+      addToSingleCart(el);
+    }
+  };
+
+  const addToSingleCart = (el) => {
+    setCartSingle([...singleCart, el]);
+  };
+
+  
+  
+  const removeFromCart = (el) => {
+        let itemFound = false;
+        const updatedCart = cart.filter((cartItem) => {
+          if (cartItem.id === el.id && !itemFound) {
+            itemFound = true;
+            return false;
+          }
+          return true;
+        });
+        if (itemFound) {
+          setCart(updatedCart);
+        }
+      }
+
+  const cartItems = singleCart.map((el) => (
+    <div>
+    <div key={el.id} className="relative py-0 border-black border-solid border-4 m-4 grid grid-cols-3 bg-orange-100 overscroll-y-auto place-items-center">
+      <div className="">
+        <img class="img-fluid m-10 m-10 border-white border-solid border-8 border-dotted" src={el.image} width={300} />
+      </div>
+      <div className="text-1xl text-center font-medium tracking-tight text-black-600 ">
+      {howManyofThis(el.id)} {el.title}<br></br>Total: ${el.price * howManyofThis(el.id)}
+      </div>
+    </div>
+    <div>
+      <br></br>
+    </div>
+    </div>
+  ));
+  const listItems = product.map((el) => (
+    <div key={el.id}>
+      <img class="img-fluid" src={el.image} width = {100} />
+      {el.title}
+      {el.category}
+      {el.price}
+      <button type="button" onClick={() => removeFromCart(el)}>-</button>{" "}
+      <button type="button" variant="light" onClick={() => addToCart(el)}>{" "}+{" "}</button>
+    </div>
+  ));
+
+  function howManyofThis(id) {
+    let hmot = cart.filter((cartItem) => cartItem.id === id);
+    return hmot.length;
+  }
+  //--------------------------
+
+  
+  //APP Functions
+  function order(useremail, username)
+  {
+    name = username;
+    email = useremail;
+    setView(4);
+  }
+
+  function handleClick(tag) {
+    console.log("Step 4 : in handleClick", tag);
+    let filtered = product.filter((cat) => cat.category === tag);
+    setProductsCategory(filtered);
+    // ProductsCategory = filtered;
+    console.log("Step 5 : ", product.length, ProductsCategory.length);
+  }
+
+  function clearFilter() {
+    setProductsCategory(ProductsUnfiltered);
+    setQuery("");
+  }
+
+
+  const handleChangeS = (e) => {
+    setQuery(e.target.value);
+    console.log(
+      "Step 6 : in handleChange, Target Value :",
+      e.target.value,
+      " QueryValue :",
+      query
+    );
+    const results = product.filter((eachProduct) => {
+      if (e.target.value === "") return ProductsCategory;
+      return eachProduct.title
+        .toLowerCase()
+        .includes(e.target.value.toLowerCase());
+    });
+    setProductsCategory(results);
+  };
+
+  //----------------------------------------------------------------------------------------------------------------
+  // ENDS HERE                   <<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
   const [addNewProduct, setAddNewProduct] = useState({
     _id: 0,
@@ -18,7 +166,6 @@ function App() {
     description: "",
     category: "",
     image: "http://127.0.0.1:4000/images/",
-    rating: { rate: 0.0, count: 0 },
   });
 
   useEffect(() => {
@@ -26,7 +173,7 @@ function App() {
   }, []);
 
   function getAllProducts() {
-    fetch("http://localhost:4000/")
+    fetch("http://localhost:4000/products")
       .then((response) => response.json())
       .then((data) => {
         console.log("Show Catalog of Products :");
@@ -34,6 +181,7 @@ function App() {
         setProduct(data);
       });
     setViewer1(!viewer1);
+    setProductsCategory(product);
   }
 
   function handleUpdate(evt) {
@@ -55,7 +203,7 @@ function App() {
     } else if (evt.target.name === "image") {
       const temp = value;
       setAddNewProduct({ ...addNewProduct, image: temp });
-    } else if (evt.target.name === "rate") {
+    } /*else if (evt.target.name === "rate") {
       setAddNewProduct({ ...addNewProduct, rating: { rate: value } });
     } else if (evt.target.name === "count") {
       const temp = addNewProduct.rating.rate;
@@ -63,7 +211,7 @@ function App() {
         ...addNewProduct,
         rating: { rate: temp, count: value },
       });
-    }
+    }*/
   }
 
   function handleOnSubmit(e) {
@@ -88,7 +236,7 @@ function App() {
 
   function getOneProduct(id) {
     console.log(id);
-    if (id >= 1 && id <= 20) {
+    if (id >= 1 && id < 20) {
       fetch("http://localhost:4000/" + id)
         .then((response) => response.json())
         .then((data) => {
@@ -113,7 +261,7 @@ function App() {
       <h1><b>Title</b><br /> {el.title}</h1> <br />
       <h1><b>Category</b><br /> {el.category}</h1> <br />
       <h1><b>Price</b><br /> {el.price}</h1> <br />
-      <h1><b>Rate</b><br /> {el.rating.rate} and Count:{el.rating.count}</h1> <br />
+      {/*<h1><b>Rate</b><br /> {el.rating.rate} and Count:{el.rating.count}</h1> <br />*/}
       </div>
     </div>
   ));
@@ -127,7 +275,7 @@ function App() {
       <h1><b>Title</b><br /> {el.title}</h1> <br />
       <h1><b>Category</b><br /> {el.category}</h1> <br />
       <h1><b>Price</b><br /> {el.price}</h1> <br />
-      <h1><b>Rate</b><br /> {el.rating.rate} and Count:{el.rating.count}</h1> <br />
+      {/*<h1><b>Rate</b><br /> {el.rating.rate} and Count:{el.rating.count}</h1> <br />*/}
       </div>
     </div>
   ));
@@ -192,6 +340,165 @@ function App() {
         }
       });
   }
+
+
+  const render_products = (ProductsCategory) => {
+    return (
+      <div className="category-section fixed">
+        {console.log("Step 3 : in render_products ")}
+        <h2
+          className="text-3xl font-extrabold tracking-tight text-gray-600 category-title"
+        >
+          Products ({ProductsCategory.length})
+        </h2>
+        <div
+          className="m-6 p-3 mt-10 ml-0 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-6 xl:gap-x-10"
+          style={{ maxHeight: "800px", overflowY: "scroll" }}
+        >
+          {/* Loop Products */}
+          {ProductsCategory.map((product, index) => (
+            <div>
+            <div key={index} className="relative shadow-lg">
+              <div
+                className="min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden lg:aspect-none group-hover:-translate-y-2 h-auto"
+              >
+                <img
+                  alt="Product Image"
+                  src={product.image}
+                    />
+              </div>
+              <div className="flex justify-between p-3">
+                <div>
+                  <h3 className="text-sm text-gray-700">
+                    <a href={product.href}>
+                      <span aria-hidden="true" className="absolute inset-0" />
+                      <span style={{ fontSize: "16px", fontWeight: "600" }}>
+                        {product.title}
+                      </span>
+                    </a>
+                    <p>Tag - {product.category}</p>
+                  </h3>
+                  <p className="mt-1 text-sm text-gray-500">
+                    Rating: {" "}
+                  </p>
+                </div>
+                <p
+                  className="text-sm font-medium text-green-600"
+                >
+                  ${product.price}
+                </p>
+              </div>
+              
+            </div>
+            <div className="flex justify-between p-3">
+                <button class="small-gray-button" type="button" onClick={() => removeFromCart(product)}>-</button>
+                <p className="mt-1 text-sm text-gray-500">{howManyofThis(product.id)}</p>
+                <button type="button" variant="light" onClick={() => addToCart(product)}>+</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
+  const render_shop = () => {
+    return (
+      <div>
+        {" "}
+        {/*{listItems}*/}
+        <div>
+        <h2
+          className="text-3xl font-extrabold tracking-tight text-black-600 category-title"
+        >
+            Items in Cart :
+          </h2>
+        </div>
+        <div>{cartItems}</div>
+        <div>
+          <p className="px-5 text-3xl font-medium tracking-tight text-black-600">
+            Order total to pay : {Number((cartTotal).toFixed(2))}
+          </p>
+          <button class="gray-button-small" onClick={() => setView(3)}>Confirm</button><button class="gray-button-small" onClick={() => setView(1)}>Return</button>
+        </div>
+          
+      </div>
+    );
+    }
+
+  const render_app = () => {
+    return (
+      <div className="flex fixed flex-row">
+        {console.log("Step 2 : ReturnApp :", product.length, ProductsCategory.length)}
+        <div className="h-screen bg-slate-800 p-3 xl:basis-1/5" style={{ minWidth: "65%" }}>
+          <img
+            style={{ borderRadius: "10px" }}
+            alt="Sunset in the mountains"
+            width={450}
+            height={600}
+          />
+          <div className="px-6 py-4">
+            <h1 className="text-3xl mb-2 font-bold text-white">
+              {" "}
+              Assignment 02: Store Cart
+            </h1>
+            <p className="text-gray-700 text-white">
+              by -{" "}
+              <b style={{ color: "orange" }}>
+                Kyle Kohl: Software Engineer & Spencer Thiele: Software Engineer
+              </b>
+            </p>
+            <div className="py-5">
+            <button
+                class="gray-button-small"
+                onClick={() => {
+                  clearFilter();
+                }}
+              >
+                Clear Filters
+              </button>
+            </div>
+            <div className="">
+              {Categories ? <p className="text-white">Tags : </p> : ""}
+              {Categories.map((tag) => (
+                <button
+                  key={tag}
+                  className="inline-block bg-amber-600 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mt-2"
+                  onClick={() => {
+                    handleClick(tag);
+                  }}
+                >
+                  {tag}
+                </button>
+              ))}
+            </div>
+            <div className="py-5">
+              <input type="search" value={query} onChange={handleChangeS} />
+            </div>
+            <div className="py-10 px-2">
+              <button
+                class="white-button"
+                onClick={() => {
+                  setView(2);
+                }}
+              >
+                Checkout
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className="ml-5 p-10 xl:basis-4/5">
+          {console.log(
+            "Before render :",
+            product.length,
+            ProductsCategory.length
+          )}
+          {render_products(ProductsCategory)}
+        </div>
+      </div>
+    );
+  }
+
 
   const render_get = () => {
     return (
@@ -284,6 +591,7 @@ function App() {
             onChange={handleChange}
           />
           <br />
+          {/*}
           <label className="bg-blue-300 ml-1 pl-3 pr-5 rounded-l-lg">Rate</label>
           <input className="ml-3 shadow-md mb-4"
             type="number"
@@ -292,7 +600,7 @@ function App() {
             value={addNewProduct.rating.rate}
             onChange={handleChange}
           />
-          <br />
+          <br /> 
           <label className="bg-blue-300 ml-1 pl-3 pr-5 rounded-l-lg">Count</label>
           <input className="ml-3 shadow-md mb-4"
             type="number"
@@ -301,7 +609,7 @@ function App() {
             value={addNewProduct.rating.count}
             onChange={handleChange}
           />
-          <br />
+          <br />*/}
           <div className="flex justify-center pt-2">
           <button className="px-8 ml-1 py-1 mb-4 rounded-lg bg-green-400" type="submit" onClick={handleOnSubmit}>
             submit
@@ -346,8 +654,9 @@ function App() {
               <h1><b>Title</b><br /> {product[index].title}</h1> <br />
               <h1><b>Category</b><br /> {product[index].category}</h1> <br />
               <h1><b>Price</b><br /> {product[index].price}</h1> <br />
+              {/*
               <h1><b>Rate</b><br /> {product[index].rating.rate}</h1> <br />
-              <h1 className="mb-2"><b>Count</b><br />{product[index].rating.count}</h1>
+              <h1 className="mb-2"><b>Count</b><br />{product[index].rating.count}</h1> */}
             </div>
           </div>
         )}
@@ -391,8 +700,9 @@ function App() {
               <h1><b>Title</b><br /> {product[index].title}</h1> <br />
               <h1><b>Category</b><br /> {product[index].category}</h1> <br />
               <h1><b>Price</b><br /> {product[index].price}</h1> <br />
+              {/*}
               <h1><b>Rate</b><br /> {product[index].rating.rate}</h1> <br />
-              <h1 className="mb-2"><b>Count</b><br />{product[index].rating.count}</h1>
+              <h1 className="mb-2"><b>Count</b><br />{product[index].rating.count}</h1>*/}
             </div>
           </div>
           <label className="bg-blue-300 ml-1 pl-3 pr-5 rounded-l-lg">New Price</label>
@@ -445,7 +755,7 @@ function App() {
     return (
       <div className="bg-gradient-to-b from-blue-400 to-green-200 mb-8">
         <div className="flex justify-center pt-2">
-        <h1 className="font-serif font-bold text-3xl">Assignment 3</h1>
+        <h1 className="font-serif font-bold text-3xl">Phase 2</h1>
         </div>
         <div className="flex justify-center">
         <h1 className="font-serif font-bold leading-relaxed pb-3">Team 32</h1>
@@ -476,7 +786,7 @@ function App() {
     return (
       <div>
         {render_nav()}
-        {render_add()}
+        {render_app()}
       </div>
     );
   }
