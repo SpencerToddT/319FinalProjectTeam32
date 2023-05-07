@@ -1,1 +1,1 @@
-export const Categories = ["Magic", "Meelee", "Ranged"];
+export const Categories = ["Magic", "Melee", "Potion"];

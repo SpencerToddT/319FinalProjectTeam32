@@ -114,9 +114,9 @@ function App() {
 
   const cartItems = singleCart.map((el) => (
     <div>
-    <div key={el._id} className="relative py-0 border-black border-solid border-4 m-4 grid grid-cols-3 bg-orange-100 overscroll-y-auto place-items-center">
+    <div key={el._id} className="relative py-0 border-black border-solid border-4 m-4 grid grid-cols-3 bg-green-400 overscroll-y-auto place-items-center">
       <div className="">
-        <img class="img-fluid m-10 m-10 border-white border-solid border-8 border-dotted" src={el.image} width={300} />
+        <img class="img-fluid m-10 m-10 border-blue-200 border-solid border-8 border-dotted" src={el.image} width={300} />
       </div>
       <div className="text-1xl text-center font-medium tracking-tight text-black-600 ">
       {howManyofThis(el._id)} {el.title}<br></br>Total: ${el.price * howManyofThis(el._id)}
@@ -752,7 +752,10 @@ function App() {
         <h3 className="font-semibold text-lg">COMS 319: Construction of User Interfaces</h3>
         </div>
         <div className="flex justify-center pt-2">
-        <h3 className="font-semibold text-lg">Abraham Netzahualcoy Aldaco Gastelum</h3>
+        <h3 className="font-semibold text-lg">Dr. Abraham N. Aldaco Gastelum</h3>
+        </div>
+        <div className="flex justify-center pt-2">
+        <h3 className="font-semibold text-lg">aaldaco@iastate.edu</h3>
         </div>
         <div className="flex justify-center pt-2">
         <h3 className="font-semibold text-lg">4/30/2023</h3>
@@ -760,7 +763,8 @@ function App() {
         <hr className="w-48 h-1 mt-2 mx-auto bg-green-300 rounded"></hr>
         <div className="flex justify-center pt-2">
         <div className="flex justify-center pt-2 flex-wrap w-3/6">
-          <p className="">Welcome to Team 32's Final Project Phase 2!
+          <p className="text-center">Welcome to Team 32's Final Project Phase 2! Please import our AllProducts.json file into Mongo to view products.
+          I hope you enjoy browsing our selection!
           </p>
         </div>
         </div>
