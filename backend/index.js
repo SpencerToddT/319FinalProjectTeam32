@@ -45,8 +45,6 @@ app.post("/insert", async (req, res) => {
   const pdescription = req.body.description;
   const pcategory = req.body.category;
   const pimage = req.body.image;
-  const prate = req.body.rating.rate;
-  const pcount = req.body.rating.count;
 
   const formData = new Product({
     _id: p_id,
@@ -78,4 +76,18 @@ app.delete("/delete", async (req, res) => {
   } catch (err) {
     console.log("Error while deleting :" + p_id + " " + err);
    }
+});
+
+app.put("/update", async (req, res) => {
+  console.log("Update :", req.body);
+  try {
+    //const query = "{_id: req.body._id}, {price: req.body.price}";
+    await Product.updateOne({_id: req.body._id}, {price: req.body.price});
+    const messageResponse = {
+      message: `Product ${req.body._id} updated correctly to ${req.body.price}`,
+    };
+    res.send(JSON.stringify(messageResponse));
+  } catch (err) {
+    console.log("Error while updating :" + p_id + " " + err);
+  }
 });

@@ -1,4 +1,4 @@
-
+[
   {
     "_id": 1,
     "title": "Magic Mushroom",
@@ -6,7 +6,7 @@
     "description": "Enter the forest with a magical touch, And find a mushroom that's just as much. Its colors and shapes are out of sight, A truly enchanting and mystical delight.",
     "category": "Magic",
     "image": "http://127.0.0.1:4000/images/adrian-infernus-MSMxwouozXI-unsplash.jpg"
-  }
+  },
 
   {
     "_id": 2,
@@ -15,7 +15,7 @@
     "description": "When it comes to slicing and dicing,This knife is really quite enticing.With a sharp and sturdy stainless steel blade,Your cutting tasks will be easily made.",
     "category": "Meelee",
     "image": "http://127.0.0.1:4000/images/anis-rahman-qFFjBvneV2k-unsplash.jpg"
-  }
+  },
 
   {
     "_id": 3,
@@ -24,7 +24,7 @@
     "description": "Ahoy there matey, hoist the sail, And grab this cutlass without fail. With a curved blade and a shining hilt, It's perfect for any swashbuckling tilt.",
     "category": "Meelee",
     "image": "http://127.0.0.1:4000/images/anis-rahman-vyLCmzpxR8c-unsplash.jpg"
-  }
+  },
 
   {
     "_id": 4,
@@ -33,16 +33,16 @@
     "description": "From a far-off land of myth and lore, Comes a blade that you'll adore. Its gleaming steel and magical sheen, Will make your enemies turn green.",
     "category": "Meelee",
     "image": "http://127.0.0.1:4000/images/carlos-felipe-ramirez-mesa-zIOrZH4Hkmc-unsplash.jpg"
-  }
+  },
 
   {
     "_id": 5,
-    "title": "Catapult: For extreme situations",
-    "price": 229999.3,
+    "title": "Catapult",
+    "price": 999.30,
     "description": "When the battle gets intense and rough, And you need to hurl things far enough, This catapult will surely save the day, Launching projectiles in an impressive display.",
     "category": "Ranged",
     "image": "http://127.0.0.1:4000/images/catapults.jpg"
-  }
+  },
 
   {
     "_id": 6,
@@ -51,7 +51,7 @@
     "description": "Brewed from a secret and ancient recipe, This blue potion is sure to set you free. Drink it down and feel the power flow, As your strength and energy begin to grow.",
     "category": "Magic",
     "image": "http://127.0.0.1:4000/images/fly-d-jIpoPzpqHHQ-unsplash.jpg"
-  }
+  },
 
   {
     "_id": 7,
@@ -60,7 +60,7 @@
     "description": "In the woods where the elves do roam, Lies a bow that feels like home. Green as the leaves and light as a feather, Its arrows fly true and hit their mark together.",
     "category": "Ranged",
     "image": "http://127.0.0.1:4000/images/forthdevil-brDvX8oSQw0-unsplash.jpg"
-  }
+  },
 
   {
     "_id": 8,
@@ -69,16 +69,16 @@
     "description": "Amidst the elven trees so bright, Lies a bow that's a fiery sight. Red as the flame and quick as the wind, Its arrows never miss and always rescind.",
     "category": "Ranged",
     "image": "http://127.0.0.1:4000/images/forthdevil-sXEdoofDt3M-unsplash.jpg"
-  }
+  },
 
   {
     "_id": 9,
-    "title": "Wizard: An Ally to Call in times of Greatest Need",
-    "price": 98962.99,
+    "title": "Wizard",
+    "price": 999.99,
     "description": "When you face a perilous plight, Summon this wizard with all your might. With powers that astound and mystify, Your greatest foe will surely die.",
     "category": "Magic",
     "image": "http://127.0.0.1:4000/images/Gandalf.jpg"
-  }
+  },
 
   {
     "_id": 10,
@@ -87,7 +87,7 @@
     "description": "Beneath the ocean, in a hidden cove, Lies a potion that's a treasure trove. Green as the sea and rich in potion, It grants you powers beyond all notion.",
     "category": "Magic",
     "image": "http://127.0.0.1:4000/images/guilherme-stecanella-SZ80v2lmhSY-unsplash.jpg"
-  }
+  },
 
   {
     "_id": 11,
@@ -96,7 +96,7 @@
     "description": "Carved from wood that's old and wise, This knife will be your trusty prize. It may look rustic, but don't be misled, Its sharp blade will cut through bread and meat like thread.",
     "category": "Meelee",
     "image": "http://127.0.0.1:4000/images/markus-spiske-DRtaBL8Xx24-unsplash.jpg"
-  }
+  },
   
   {
     "_id": 12,
@@ -105,7 +105,7 @@
     "description": "These mushrooms are unlike any other, With magical powers that truly hover. One bite will send you on a wild ride, To a place where imagination and reality collide.",
     "category": "Magic",
     "image": "http://127.0.0.1:4000/images/mathew-schwartz-RWrbY8j9GPo-unsplash.jpg"
-  }
+  },
 
   {
     "_id": 13,
@@ -114,7 +114,7 @@
     "description": "In a land of wonder and mystery, Stands a tree with a magic history. Its mushrooms grow and multiply, A psychedelic sight for the open eye.",
     "category": "Magic",
     "image": "http://127.0.0.1:4000/images/meritt-thomas-zqIOvV-D3JQ-unsplash.jpg"
-  }
+  },
 
 
   {
@@ -123,12 +123,8 @@
     "price": 6815.99,
     "description": "With tips that sparkle and gleam, These arrows will make your foes scream. They rain down from the sky like a storm, Bringing victory and triumph in their swarm.",
     "category": "Ranged",
-    "image": "http://127.0.0.1:4000/images/possessed-photography-N4gn-eLEIwI-unsplash.jpg",
-    "rating": {
-      "rate": 4.1,
-      "count": 259
-    }
-  }
+    "image": "http://127.0.0.1:4000/images/possessed-photography-N4gn-eLEIwI-unsplash.jpg"
+  },
 
   {
     "_id": 15,
@@ -137,25 +133,25 @@
     "description": "With a handle strong and a blade so sharp, This battle axe will leave your enemies in a harp. The Vikings wielded it with great might, And you too can rule the battlefield with a fright.",
     "category": "Meelee",
     "image": "http://127.0.0.1:4000/images/quaidian-wanderer-rgJreXPIPbo-unsplash.jpg"
-  }
+  },
 
   {
     "_id": 16,
-    "title": "Sword of Grindendorf The Supreme",
-    "price": 9869.95,
+    "title": "Sword of Grindendorf",
+    "price": 897.95,
     "description": "Forged by the fire of dragon's breath, This sword is the ultimate weapon in death. Grindendorf wielded it with the greatest of ease, And its power brought kingdoms to their knees.",
     "category": "Meelee",
     "image": "http://127.0.0.1:4000/images/rhii-photography-EZpvFGUYZKo-unsplash.jpg"
-  }
+  },
 
   {
     "_id": 17,
-    "title": "King Author's old Excalibur",
-    "price": 6052.3,
+    "title": "Excalibur",
+    "price": 678.33,
     "description": "Pulled from a stone by the chosen one, This sword's power is second to none. King Arthur wielded it with grace and might, And in his hands, it shone like a guiding light.",
     "category": "Meelee",
     "image": "http://127.0.0.1:4000/images/ricardo-cruz-P8LZaU52NME-unsplash.jpg"
-  }
+  },
 
   {
     "_id": 18,
@@ -163,12 +159,8 @@
     "price": 23.99,
     "description": "A simple but effective weapon of choice, This slingshot will make your foes rejoice. With a pouch of leather and a band so tight, You'll hit your target with all your might.",
     "category": "Ranged",
-    "image": "http://127.0.0.1:4000/images/slingshot.jpg",
-    "rating": {
-      "rate": 4.7,
-      "count": 500
-    }
-  }
+    "image": "http://127.0.0.1:4000/images/slingshot.jpg"
+  },
 
   {
     "_id": 19,
@@ -178,5 +170,6 @@
     "category": "Meelee",
     "image": "http://127.0.0.1:4000/images/vladislav-m-WI62j3uzORo-unsplash.jpg"
   }
+]
 
   
