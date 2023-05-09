@@ -6,10 +6,6 @@ function App() {
   const [updatedShop, setUpdated] = useState(false);
   const [view, setView] = useState(5);
   const [product, setProduct] = useState([]);
-  const [oneProduct, setOneProduct] = useState([]);
-  const [viewer1, setViewer1] = useState(false);
-  const [viewer2, setViewer2] = useState(false);
-  const [viewer4, setViewer4] = useState(false);
   const [checked4, setChecked4] = useState(false);
   const [index, setIndex] = useState(0);
   const [updatePrice, setPrice] = useState(0);
@@ -29,17 +25,11 @@ function App() {
   });
 
   useEffect(() => {
-    getAllProducts();
-  }, []);
-
-  useEffect(() => {
-    getAllProducts();
-  }, [checked4]);
-
-  useEffect(() => {
     total();
   }, [cart]);
 
+
+  //Other Functions ==================================================================================
   function orderSent()
   {
     setView(5);
@@ -49,7 +39,7 @@ function App() {
     clearFilter();
     alert("Purchase Successfull\nHappy Adventuring");
   }
-  
+
   const total = () => {
     let totalVal = 0;
     for (let i = 0; i < cart.length; i++) {
@@ -114,7 +104,6 @@ function App() {
     console.log("Step 4 : in handleClick", tag);
     let filtered = product.filter((cat) => cat.category === tag);
     setProductsCategory(filtered);
-    // ProductsCategory = filtered;
     console.log("Step 5 : ", product.length, ProductsCategory.length);
   }
 
@@ -140,20 +129,23 @@ function App() {
     setProductsCategory(results);
   }
 
-  function getAllProducts() {
-    fetch("http://localhost:4000/products")
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Show Catalog of Products :");
-        console.log(data);
-        setProduct(data);
-        setProductsCategory(data);
-        setProductsUnfiltered(data);
-      });
-    setViewer1(!viewer1);
-    setUpdated(true);
+  function getOneByOneProductNext() {
+    if (product.length > 0) {
+      if (index === product.length - 1) setIndex(0);
+      else setIndex(index + 1);
+    }
   }
 
+  function getOneByOneProductPrev() {
+    if (product.length > 0) {
+      if (index === 0) setIndex(product.length - 1);
+      else setIndex(index - 1);
+    }
+  }
+  //End of Other Functions ----------------------------------------------------------------------------------------
+
+
+  //Server Requests ==================================================================================
   function handleUpdate(evt) {
     setPrice(evt.target.value);
   }
@@ -176,6 +168,19 @@ function App() {
     }
   }
 
+  function getAllProducts() {
+    fetch("http://localhost:4000/products")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Show Catalog of Products :");
+        console.log(data);
+        setProduct(data);
+        setProductsCategory(data);
+        setProductsUnfiltered(data);
+      });
+    setUpdated(true);
+  }
+
   function handleOnSubmit(e) {
     e.preventDefault();
     console.log(e.target.value);
@@ -195,24 +200,6 @@ function App() {
         }
       });
       setUpdated(false);
-  }
-
-  function getOneByOneProductNext() {
-    if (product.length > 0) {
-      if (index === product.length - 1) setIndex(0);
-      else setIndex(index + 1);
-      if (product.length > 0) setViewer4(true);
-      else setViewer4(false);
-    }
-  }
-
-  function getOneByOneProductPrev() {
-    if (product.length > 0) {
-      if (index === 0) setIndex(product.length - 1);
-      else setIndex(index - 1);
-      if (product.length > 0) setViewer4(true);
-      else setViewer4(false);
-    }
   }
 
   function deleteOneProduct(deleteid) {
@@ -255,10 +242,11 @@ function App() {
       });
       setChecked4(!checked4);
   }
+  //End of Server Requests ----------------------------------------------------------------------------------------
 
 
-//Helper Renders ==================================================================================
-const cartItems = singleCart.map((el) => (
+  //Helper Renders ==================================================================================
+  const cartItems = singleCart.map((el) => (
   <div>
   <div key={el._id} className="relative py-0 border-black border-solid border-4 m-4 grid grid-cols-2 bg-black overscroll-y-auto rounded-lg">
     <div className="grid bg-gray-600 w-full place-items-center rounded-l-md">
@@ -284,71 +272,71 @@ const cartItems = singleCart.map((el) => (
     <br></br>
   </div>
   </div>
-));
+  ));
 
-const render_products = (ProductsCategory) => {
-  return (
-    <div className="category-section fixed mb-20">
-      {console.log("Step 3 : in render_products ")}
-      <h2
-        className="text-3xl font-extrabold tracking-tight text-green-400 category-title"
-      >
-        Items ({ProductsCategory.length})
-      </h2>
-      <div
-        className="m-6 p-3 mb-20 mt-10 ml-0 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-10"
-        style={{ maxHeight: "800px", overflowY: "scroll", paddingBottom: "100%"}}
-      >
-        {/* Loop Products */}
-        {ProductsCategory.map((product, index) => (
-          <div>
-          <div key={index} className="relative shadow-lg">
-            <div
-              className="min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden lg:aspect-none group-hover:-translate-y-2 h-auto"
-            >
-              <img
-                alt="Product Image"
-                src={product.image}
-                  />
-            </div>
-            <div className="flex justify-between p-3">
-              <div>
-                <h3 className="text-sm text-gray-700">
-                  <a href={product.href}>
-                    <span aria-hidden="true" className="absolute inset-0" />
-                    <span style={{ fontSize: "16px", fontWeight: "600" }}>
-                      {product.title}
-                    </span>
-                  </a>
-                  <p className="italic tracking-tight text-blue-400">{product.category}</p>
-                </h3>
-                <p className="mt-1 text-sm text-gray-500">
-                  {" "}{product.description}
+  const render_products = (ProductsCategory) => {
+    return (
+      <div className="category-section fixed mb-20">
+        {console.log("Step 3 : in render_products ")}
+        <h2
+          className="text-3xl font-extrabold tracking-tight text-green-400 category-title"
+        >
+          Items ({ProductsCategory.length})
+        </h2>
+        <div
+          className="m-6 p-3 mb-20 mt-10 ml-0 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-10"
+          style={{ maxHeight: "800px", overflowY: "scroll", paddingBottom: "100%"}}
+        >
+          {/* Loop Products */}
+          {ProductsCategory.map((product, index) => (
+            <div>
+            <div key={index} className="relative shadow-lg">
+              <div
+                className="min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden lg:aspect-none group-hover:-translate-y-2 h-auto"
+              >
+                <img
+                  alt="Product Image"
+                  src={product.image}
+                    />
+              </div>
+              <div className="flex justify-between p-3">
+                <div>
+                  <h3 className="text-sm text-gray-700">
+                    <a href={product.href}>
+                      <span aria-hidden="true" className="absolute inset-0" />
+                      <span style={{ fontSize: "16px", fontWeight: "600" }}>
+                        {product.title}
+                      </span>
+                    </a>
+                    <p className="italic tracking-tight text-blue-400">{product.category}</p>
+                  </h3>
+                  <p className="mt-1 text-sm text-gray-500">
+                    {" "}{product.description}
+                  </p>
+                </div>
+                <p
+                  className="text-sm font-medium text-green-600"
+                >
+                  ${product.price.toFixed(2)}
                 </p>
               </div>
-              <p
-                className="text-sm font-medium text-green-600"
-              >
-                ${product.price.toFixed(2)}
-              </p>
+
             </div>
-            
-          </div>
-          <div className="flex justify-between p-3 bg-green-400 rounded-b-lg">
-              <button  type="button" onClick={() => removeFromCart(product)}>-</button>
-              <p className="mt-1 text-sm text-black">{howManyofThis(product._id)}</p>
-              <button type="button" variant="light" onClick={() => addToCart(product)}>+</button>
+            <div className="flex justify-between p-3 bg-green-400 rounded-b-lg">
+                <button  type="button" onClick={() => removeFromCart(product)}>-</button>
+                <p className="mt-1 text-sm text-black">{howManyofThis(product._id)}</p>
+                <button type="button" variant="light" onClick={() => addToCart(product)}>+</button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
-  );
-};
-// End of Helper Renders ----------------------------------------------------------------------------------------
+    );
+  };
+  //End of Helper Renders ----------------------------------------------------------------------------------------
 
 
-//View Renders ==================================================================================
+  //View Renders ==================================================================================
   const render_shop = () => {
     return (
       <div>
@@ -613,7 +601,7 @@ const render_products = (ProductsCategory) => {
   const render_about = () => {
     return (
       <div>
-        <div className="flex justify-center pt-2">
+        <div className="flex justify-center pt-2 mt-10">
         <h3 className="font-semibold text-lg">Kyle Kohl and Spencer Thiele</h3>
         </div>
         <div className="flex justify-center pt-2">
@@ -630,12 +618,15 @@ const render_products = (ProductsCategory) => {
         <h3 className="font-semibold text-lg">aaldaco@iastate.edu</h3>
         </div>
         <div className="flex justify-center pt-2">
-        <h3 className="font-semibold text-lg">4/30/2023</h3>
+        <h3 className="font-semibold text-lg">5/5/2023</h3>
         </div>
         <hr className="w-48 h-1 mt-2 mx-auto bg-green-300 rounded"></hr>
         <div className="flex justify-center pt-2">
         <div className="flex justify-center pt-2 flex-wrap w-3/6">
-          <p className="text-center">Welcome to Team 32's Final Project Phase 2! Please import our AllProducts.json file into Mongo to view products.
+          <p className="text-center">Welcome to Team 32's Final Project!
+          We created an online store of fantasy-esque items for adventurers. 
+          Please import our AllProducts.json file into Mongo to view products. The database should be named reactdata
+          and the collection should be named Adventure. Also make sure your URI is mongodb://localhost:27017.
           I hope you enjoy browsing our selection!
           </p>
         </div>
@@ -663,7 +654,7 @@ const render_products = (ProductsCategory) => {
       </div>
     )
   }
-  // End of Renders -----------------------------------------------------------------------------------------
+  //End of View Renders -----------------------------------------------------------------------------------------
 
 
   //View return

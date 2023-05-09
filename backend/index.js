@@ -26,7 +26,6 @@ app.get("/products", async (req, resp) => {
   const allProducts = await Product.find(query);
   console.log(allProducts);
    resp.send(allProducts);
-  
 });
 
 app.post("/insert", async (req, res) => {
