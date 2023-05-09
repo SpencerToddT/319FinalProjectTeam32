@@ -1,0 +1,139 @@
+[
+  {
+    "_id": 1,
+    "title": "Ambrosia",
+    "price": 109.95,
+    "description": "This drink of the gods is an adventuring must-have. Upon consumation the adventurer will gain the blessing of the gods.",
+    "category": "Magic",
+    "image": "http://127.0.0.1:4000/images/ambrosia.jpg"
+  },
+
+  {
+    "_id": 2,
+    "title": "Blade of Souls",
+    "price": 22.3,
+    "description": "This blade has taken the lives of many and trapped them inside. If you're alright with a faint whispering this blade is the best.",
+    "category": "Melee",
+    "image": "http://127.0.0.1:4000/images/bladeOfSouls.jpg"
+  },
+
+  {
+    "_id": 3,
+    "title": "Spellbook",
+    "price": 55.99,
+    "description": "A book containing beginner level spells. Great for a new adventurer looking for an introduction to the arcane.",
+    "category": "Magic",
+    "image": "http://127.0.0.1:4000/images/bookOfSpells.jpg"
+  },
+
+  {
+    "_id": 4,
+    "title": "Dagger Set",
+    "price": 259.95,
+    "description": "A set of the finest daggers in the west. These blades won't dull and work nicely in a pinch. Set includes four daggers, sheath not included.",
+    "category": "Melee",
+    "image": "http://127.0.0.1:4000/images/daggerSet.jpg"
+  },
+
+  {
+    "_id": 5,
+    "title": "Bottled Death",
+    "price": 999.30,
+    "description": "Beware the contents of this bottle. Skin contact will result in an instant death that is irreversible. Consider yourself warned.",
+    "category": "Potion",
+    "image": "http://127.0.0.1:4000/images/essenceOfDeath.jpg"
+  },
+
+  {
+    "_id": 6,
+    "title": "Frost Sword",
+    "price": 98.99,
+    "description": "A fine blade that leaves it's target frozen. Even the most experienced adventurers seek out this blade. Wielding the blade for too long will result in frostbite.",
+    "category": "Melee",
+    "image": "http://127.0.0.1:4000/images/frostSword.jpg"
+  },
+
+  {
+    "_id": 7,
+    "title": "Health Potion",
+    "price": 319.95,
+    "description": "The Health Potion is an adventuring necessity that will restore you to proper health from any non-fatal wounds. Any attempt to bring back the dead will prove unsuccessfull.",
+    "category": "Potion",
+    "image": "http://127.0.0.1:4000/images/healthPotion.jpg"
+  },
+
+  {
+    "_id": 8,
+    "title": "Long Sword",
+    "price": 292.3,
+    "description": "This standard long sword is a classic. Perfect for your typical small monsters like orc but in the hands of an expert it can slay even the most deadly of beasts.",
+    "category": "Melee",
+    "image": "http://127.0.0.1:4000/images/longSword.jpg"
+  },
+
+  {
+    "_id": 9,
+    "title": "Magic Mushroom",
+    "price": 999.99,
+    "description": "Enter the forest with a magical touch, And find a mushroom that's just as much. Its colors and shapes are out of sight, A truly enchanting and mystical delight.",
+    "category": "Magic",
+    "image": "http://127.0.0.1:4000/images/mushroom1.jpg"
+  },
+
+  {
+    "_id": 10,
+    "title": "Sleeping Mushroom",
+    "price": 169.95,
+    "description": "Upon eating this mushroom the adventurer will fall into a death-like state for a day. If unbothered, they will wake up well rested and ready to go on their way.",
+    "category": "Magic",
+    "image": "http://127.0.0.1:4000/images/mushroom2.jpg"
+  },
+
+  {
+    "_id": 11,
+    "title": "Paper Sword",
+    "price": 45.3,
+    "description": "This trinket won't do much good against foe, but it is a great gift for young folk. All the thrill of being an adventurer without the risk of losing an eye.",
+    "category": "Melee",
+    "image": "http://127.0.0.1:4000/images/paperSword.jpg"
+  },
+  
+  {
+    "_id": 12,
+    "title": "Potion of Poisin",
+    "price": 875.99,
+    "description": "This potion will send any creature into a wretched state, ending with their demise. Perfect for arrow tips or drink slips.",
+    "category": "Potion",
+    "image": "http://127.0.0.1:4000/images/poisinPotion.jpg"
+  },
+
+  {
+    "_id": 13,
+    "title": "Wand",
+    "price": 2009.95,
+    "description": "Traditional wand for arcane practices and standard spells. Any attempt at necromancy with this wand will have poor results.",
+    "category": "Magic",
+    "image": "http://127.0.0.1:4000/images/wand.jpg"
+  },
+
+
+  {
+    "_id": 14,
+    "title": "Wand and Spellbook",
+    "price": 6815.99,
+    "description": "This classic combo will have any up and coming adventurer ready for whatever they may face. Sold at a discount price.",
+    "category": "Magic",
+    "image": "http://127.0.0.1:4000/images/wandAndBook.jpg"
+  },
+
+  {
+    "_id": 15,
+    "title": "Wizard",
+    "price": 95.99,
+    "description": "Adventuring alone is dangerous, so hire a wizard for your next adventure. Capable of summoning, combat, and necromancy.",
+    "category": "Magic",
+    "image": "http://127.0.0.1:4000/images/wizard.jpg"
+  }
+]
+
+  

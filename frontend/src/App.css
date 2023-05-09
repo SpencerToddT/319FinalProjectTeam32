@@ -37,20 +37,13 @@
   }
 }
 
-.white-button{
-  background-color: white;
-  border-radius: 10px;
-  color: black;
-  font-size: 16px;
-  padding: 12px 24px;
+/* For Webkit-based browsers (Chrome, Safari and Opera) */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
 
-.gray-button-small{
-  background-color: rgb(170, 170, 170);
-  border-radius: 10px;
-  color: black;
-  font-size: 14px;
-  padding: 2px 20px;
-  margin-left: 15px;
-  margin-top: 10px;
+/* For IE, Edge and Firefox */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
