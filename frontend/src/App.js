@@ -173,15 +173,7 @@ function App() {
     } else if (evt.target.name === "image") {
       const temp = value;
       setAddNewProduct({ ...addNewProduct, image: temp });
-    } /*else if (evt.target.name === "rate") {
-      setAddNewProduct({ ...addNewProduct, rating: { rate: value } });
-    } else if (evt.target.name === "count") {
-      const temp = addNewProduct.rating.rate;
-      setAddNewProduct({
-        ...addNewProduct,
-        rating: { rate: temp, count: value },
-      });
-    }*/
+    }
   }
 
   function handleOnSubmit(e) {
@@ -203,24 +195,6 @@ function App() {
         }
       });
       setUpdated(false);
-  }
-
-  function getOneProduct(id) {
-    console.log(id);
-    if (id >= 1 && id < 20) {
-      fetch("http://localhost:4000/" + id)
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("Show one product :", id);
-          console.log(data);
-          const dataArr = [];
-          dataArr.push(data);
-          setOneProduct(dataArr);
-        });
-      setViewer2(!viewer2);
-    } else {
-      console.log("Wrong number of Product id.");
-    }
   }
 
   function getOneByOneProductNext() {
@@ -284,33 +258,6 @@ function App() {
 
 
 //Helper Renders ==================================================================================
-const showOneItem = oneProduct.map((el) => (
-  <div className="relative py-0 border-black border-solid border-4 m-4 grid grid-cols-3 bg-orange-100 overscroll-y-auto place-items-center" key={el._id}>
-    <div>
-      <img className="img-fluid m-10 m-10 border-white border-solid border-8 border-line" src={el.image} /> <br />
-    </div>
-    <div className="ml-20 text-1xl text-center font-medium tracking-tight text-black-600 ">
-    <h1><b>Title</b><br /> {el.title}</h1> <br />
-    <h1><b>Category</b><br /> {el.category}</h1> <br />
-    <h1><b>Price</b><br /> {el.price}</h1> <br />
-    {/*<h1><b>Rate</b><br /> {el.rating.rate} and Count:{el.rating.count}</h1> <br />*/}
-    </div>
-  </div>
-));
-
-const showAllItems = product.map((el) => (
-  <div className="relative py-0 border-black border-solid border-4 m-4 grid grid-cols-3 bg-orange-100 overscroll-y-auto place-items-center" key={el._id}>
-    <div>
-      <img className="img-fluid m-10 m-10 border-white border-solid border-8 border-line" src={el.image} /> <br />
-    </div>
-    <div className="ml-20 text-1xl text-center font-medium tracking-tight text-black-600 ">
-    <h1><b>Title</b><br /> {el.title}</h1> <br />
-    <h1><b>Category</b><br /> {el.category}</h1> <br />
-    <h1><b>Price</b><br /> {el.price}</h1> <br />
-    </div>
-  </div>
-));
-
 const cartItems = singleCart.map((el) => (
   <div>
   <div key={el._id} className="relative py-0 border-black border-solid border-4 m-4 grid grid-cols-2 bg-black overscroll-y-auto rounded-lg">
@@ -327,7 +274,7 @@ const cartItems = singleCart.map((el) => (
         </div>
       </div>
       <div className="absolute flex justify-between p-3 bg-green-400 w-1/2 right-0 bottom-0 rounded-br-md">
-        <button  type="button" onClick={() => removeFromCart(el)}>-</button>{/*class="small-gray-button"*/}
+        <button  type="button" onClick={() => removeFromCart(el)}>-</button>
         <p className="mt-1 text-sm text-black">{howManyofThis(el._id)}</p>
         <button type="button" variant="light" onClick={() => addToCart(el)}>+</button>
       </div>
@@ -388,7 +335,7 @@ const render_products = (ProductsCategory) => {
             
           </div>
           <div className="flex justify-between p-3 bg-green-400 rounded-b-lg">
-              <button  type="button" onClick={() => removeFromCart(product)}>-</button>{/*class="small-gray-button"*/}
+              <button  type="button" onClick={() => removeFromCart(product)}>-</button>
               <p className="mt-1 text-sm text-black">{howManyofThis(product._id)}</p>
               <button type="button" variant="light" onClick={() => addToCart(product)}>+</button>
             </div>
@@ -406,7 +353,6 @@ const render_products = (ProductsCategory) => {
     return (
       <div>
         {" "}
-        {/*{listItems}*/}
         <div className="flex justify-center pt-2">
         <h3 className="font-semibold text-2xl">Items in cart</h3>
         </div>
@@ -499,35 +445,6 @@ const render_products = (ProductsCategory) => {
     );
   }
 
-  const render_get = () => {
-    return (
-      <div>
-        <div className="flex justify-center pt-2">
-        <button className="bg-blue-300 px-12 mt-2 rounded-lg" onClick={() => getAllProducts()}>Show All products</button>
-        </div>
-        <div className="flex justify-center pt-2 pb-4">
-        <input className="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          type="text"
-          id="message"
-          name="message"
-          placeholder="id"
-          onChange={(e) => getOneProduct(e.target.value)}
-        />
-        </div>
-        <div className="flex justify-center pt-2">
-        <h1 className="font-medium text-lg">Show all available Products</h1>
-        </div>
-        <hr className="w-48 h-1 mx-auto bg-green-300 rounded"></hr>
-        {viewer1 && <div>{showAllItems}</div>}
-        <div className="flex justify-center pt-2">
-        <h1 className="font-medium text-lg">Show one Product by ID</h1>
-        </div>
-        <hr className="w-48 h-1 mx-auto bg-green-300 rounded"></hr>
-        {viewer2 && <div>{showOneItem}</div>}
-      </div>
-    );
-  }
-
   const render_add = () => {
     return (
       <div>
@@ -590,25 +507,6 @@ const render_products = (ProductsCategory) => {
             onChange={handleChange}
           />
           <br />
-          {/*}
-          <label className="bg-blue-300 ml-1 pl-3 pr-5 rounded-l-lg">Rate</label>
-          <input className="ml-3 shadow-md mb-4"
-            type="number"
-            placeholder="rate?"
-            name="rate"
-            value={addNewProduct.rating.rate}
-            onChange={handleChange}
-          />
-          <br /> 
-          <label className="bg-blue-300 ml-1 pl-3 pr-5 rounded-l-lg">Count</label>
-          <input className="ml-3 shadow-md mb-4"
-            type="number"
-            placeholder="count?"
-            name="count"
-            value={addNewProduct.rating.count}
-            onChange={handleChange}
-          />
-          <br />*/}
           <div className="flex justify-center pt-2">
           <button className="px-8 ml-1 py-1 mb-4 rounded-lg bg-green-400" type="submit" onClick={handleOnSubmit}>
             submit
@@ -646,16 +544,13 @@ const render_products = (ProductsCategory) => {
         </button>
         </div>
         {checked4 && (
-          <div className="relative py-0 border-black border-solid border-4 m-4 grid grid-cols-3 bg-orange-100 overscroll-y-auto place-items-center" key={product[index]._id}>
+          <div className="relative py-0 border-black border-solid border-4 m-4 grid grid-cols-3 bg-blue-200 overscroll-y-auto place-items-center" key={product[index]._id}>
             <img class="img-fluid m-10 m-10 border-white border-solid border-8 border-line" src={product[index].image} /> <br />
             <div className="mr-20 text-1xl text-center font-medium tracking-tight text-black-600 ">
               <h1 className="mt-3"><b>ID</b><br /> {product[index]._id}</h1> <br />
               <h1><b>Title</b><br /> {product[index].title}</h1> <br />
               <h1><b>Category</b><br /> {product[index].category}</h1> <br />
               <h1><b>Price</b><br /> {product[index].price}</h1> <br />
-              {/*
-              <h1><b>Rate</b><br /> {product[index].rating.rate}</h1> <br />
-              <h1 className="mb-2"><b>Count</b><br />{product[index].rating.count}</h1> */}
             </div>
           </div>
         )}
@@ -692,16 +587,13 @@ const render_products = (ProductsCategory) => {
         </div>
         {checked4 && (
           <div>
-          <div className="relative py-0 border-black border-solid border-4 m-4 grid grid-cols-3 bg-orange-100 overscroll-y-auto place-items-center" key={product[index]._id}>
+          <div className="relative py-0 border-black border-solid border-4 m-4 grid grid-cols-3 bg-blue-200 overscroll-y-auto place-items-center" key={product[index]._id}>
             <img class="img-fluid m-10 m-10 border-white border-solid border-8 border-line" src={product[index].image} /> <br />
             <div className="mr-20 text-1xl text-center font-medium tracking-tight text-black-600 ">
               <h1 className="mt-3"><b>ID</b><br /> {product[index]._id}</h1> <br />
               <h1><b>Title</b><br /> {product[index].title}</h1> <br />
               <h1><b>Category</b><br /> {product[index].category}</h1> <br />
               <h1><b>Price</b><br /> {product[index].price}</h1> <br />
-              {/*}
-              <h1><b>Rate</b><br /> {product[index].rating.rate}</h1> <br />
-              <h1 className="mb-2"><b>Count</b><br />{product[index].rating.count}</h1>*/}
             </div>
           </div>
           <label className="bg-blue-300 ml-1 pl-3 pr-5 rounded-l-lg">New Price</label>
@@ -780,7 +672,6 @@ const render_products = (ProductsCategory) => {
     return (
       <div>
         {render_nav()}
-        {render_get()}
       </div>
     );
   }
