@@ -197,6 +197,7 @@ function App() {
           //const keys = Object.keys(data);
           const value = Object.values(data);
           alert(value);
+          getAllProducts();
         }
       });
       setUpdated(false);
@@ -217,6 +218,7 @@ function App() {
           const keys = Object.keys(data);
           const value = Object.values(data);
           alert(value);
+          getAllProducts();
         }
       });
     setChecked4(!checked4);
@@ -239,6 +241,7 @@ function App() {
           const value = Object.values(data);
           alert(value);
         }
+        getAllProducts();
       });
       setChecked4(!checked4);
   }

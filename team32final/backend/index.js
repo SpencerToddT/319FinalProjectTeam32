@@ -20,21 +20,12 @@ app.listen(port, () => {
   console.log(`App listening at http://%s:%s`, host, port);
 });
 
-app.get("/: id", async (req, resp) => {
-  const id = req.params.id;
-  const query = {};
-  const oneProduct = await Product.findOne(query);
-  console.log(oneProduct);
-  resp.send(oneProduct);
-});
-
 app.get("/products", async (req, resp) => {
   const query = {};
   console.log("Get Products")
   const allProducts = await Product.find(query);
   console.log(allProducts);
    resp.send(allProducts);
-  
 });
 
 app.post("/insert", async (req, res) => {
@@ -55,7 +46,6 @@ app.post("/insert", async (req, res) => {
     image: pimage,
   });
   try {
-    // await formData.save();
     await Product.create(formData);
     const messageResponse = { message: `Product ${p_id} added correctly` };
     res.send(JSON.stringify(messageResponse));
@@ -81,7 +71,6 @@ app.delete("/delete", async (req, res) => {
 app.put("/update", async (req, res) => {
   console.log("Update :", req.body);
   try {
-    //const query = "{_id: req.body._id}, {price: req.body.price}";
     await Product.updateOne({_id: req.body._id}, {price: req.body.price});
     const messageResponse = {
       message: `Product ${req.body._id} updated correctly to ${req.body.price}`,

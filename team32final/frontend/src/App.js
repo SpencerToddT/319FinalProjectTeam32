@@ -6,10 +6,6 @@ function App() {
   const [updatedShop, setUpdated] = useState(false);
   const [view, setView] = useState(5);
   const [product, setProduct] = useState([]);
-  const [oneProduct, setOneProduct] = useState([]);
-  const [viewer1, setViewer1] = useState(false);
-  const [viewer2, setViewer2] = useState(false);
-  const [viewer4, setViewer4] = useState(false);
   const [checked4, setChecked4] = useState(false);
   const [index, setIndex] = useState(0);
   const [updatePrice, setPrice] = useState(0);
@@ -19,8 +15,6 @@ function App() {
   const [cart, setCart] = useState([]);
   const [singleCart, setCartSingle] = useState([]);
   const [cartTotal, setCartTotal] = useState(0);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
   const [addNewProduct, setAddNewProduct] = useState({
     _id: 0,
     title: "",
@@ -29,41 +23,30 @@ function App() {
     category: "",
     image: "http://127.0.0.1:4000/images/",
   });
+
   useEffect(() => {
-    getAllProducts();
-  }, []);
+    total();
+  }, [cart]);
 
-  //CART ASSIGNMENT ===========================================================================
-  const handleChangeName = (event) => {
-    // 👇 Get input value from "event"
-    setName(event.target.value);
-  };
 
-  const handleChangeEmail = (event) => {
-    // 👇 Get input value from "event"
-    setEmail(event.target.value);
-  };
-
+  //Other Functions ==================================================================================
   function orderSent()
   {
     setView(5);
     setCart([]);
     setCartSingle([]);
     setCartTotal(0);
+    clearFilter();
     alert("Purchase Successfull\nHappy Adventuring");
   }
-  //SHOP FUNCTIONS
-  useEffect(() => {
-    total();
-  }, [cart]);
-  
+
   const total = () => {
     let totalVal = 0;
     for (let i = 0; i < cart.length; i++) {
       totalVal += cart[i].price;
     }
     setCartTotal(totalVal);
-  };
+  }
 
   function inSingle(el) {
     for(let i = 0; i < singleCart.length; i++)
@@ -74,7 +57,7 @@ function App() {
       }
     }
     return false;
-  };
+  }
 
   const addToCart = (el) => {
     setCart([...cart, el]);
@@ -82,11 +65,11 @@ function App() {
     {
       addToSingleCart(el);
     }
-  };
+  }
 
   const addToSingleCart = (el) => {
     setCartSingle([...singleCart, el]);
-  };  
+  }
   
   const removeFromCart = (el) => {
         let itemFound = false;
@@ -104,60 +87,23 @@ function App() {
         {
           removeSingle(el._id);
         }
-      }
+  }
   
   const removeSingle = (idNum) => {
     setCartSingle((singleCart) =>
       singleCart.filter((item) => item._id !== idNum)
     );
-  };
-
-  const cartItems = singleCart.map((el) => (
-    <div>
-    <div key={el._id} className="relative py-0 border-black border-solid border-4 m-4 grid grid-cols-3 bg-green-400 overscroll-y-auto place-items-center">
-      <div className="">
-        <img class="img-fluid m-10 m-10 border-blue-200 border-solid border-8 border-dotted" src={el.image} width={300} />
-      </div>
-      <div className="text-1xl text-center font-medium tracking-tight text-black-600 ">
-      {howManyofThis(el._id)} {el.title}<br></br>Total: ${el.price * howManyofThis(el._id)}
-      </div>
-    </div>
-    <div>
-      <br></br>
-    </div>
-    </div>
-  ));
-
-  const listItems = product.map((el) => (
-    <div key={el._id}>
-      <img class="img-fluid" src={el.image} width = {100} />
-      {el.title}
-      {el.category}
-      {el.price}
-      <button type="button" onClick={() => removeFromCart(el)}>-</button>{" "}
-      <button type="button" variant="light" onClick={() => addToCart(el)}>{" "}+{" "}</button>
-    </div>
-  ));
+  }
 
   function howManyofThis(id) {
     let hmot = cart.filter((cartItem) => cartItem._id === id);
     return hmot.length;
-  }
-  //--------------------------
-  
-  //APP Functions
-  function order(useremail, username)
-  {
-    name = username;
-    email = useremail;
-    setView(4);
   }
 
   function handleClick(tag) {
     console.log("Step 4 : in handleClick", tag);
     let filtered = product.filter((cat) => cat.category === tag);
     setProductsCategory(filtered);
-    // ProductsCategory = filtered;
     console.log("Step 5 : ", product.length, ProductsCategory.length);
   }
 
@@ -181,26 +127,25 @@ function App() {
         .includes(e.target.value.toLowerCase());
     });
     setProductsCategory(results);
-  };
-  //----------------------------------------------------------------------------------------------------------------
-  // END CartAssignment HERE                   <<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-
-
-  function getAllProducts() {
-    fetch("http://localhost:4000/products")
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Show Catalog of Products :");
-        console.log(data);
-        setProduct(data);
-        setProductsCategory(data);
-        setProductsUnfiltered(data);
-      });
-    setViewer1(!viewer1);
-    setUpdated(true);
   }
 
+  function getOneByOneProductNext() {
+    if (product.length > 0) {
+      if (index === product.length - 1) setIndex(0);
+      else setIndex(index + 1);
+    }
+  }
+
+  function getOneByOneProductPrev() {
+    if (product.length > 0) {
+      if (index === 0) setIndex(product.length - 1);
+      else setIndex(index - 1);
+    }
+  }
+  //End of Other Functions ----------------------------------------------------------------------------------------
+
+
+  //Server Requests ==================================================================================
   function handleUpdate(evt) {
     setPrice(evt.target.value);
   }
@@ -220,15 +165,20 @@ function App() {
     } else if (evt.target.name === "image") {
       const temp = value;
       setAddNewProduct({ ...addNewProduct, image: temp });
-    } /*else if (evt.target.name === "rate") {
-      setAddNewProduct({ ...addNewProduct, rating: { rate: value } });
-    } else if (evt.target.name === "count") {
-      const temp = addNewProduct.rating.rate;
-      setAddNewProduct({
-        ...addNewProduct,
-        rating: { rate: temp, count: value },
+    }
+  }
+
+  function getAllProducts() {
+    fetch("http://localhost:4000/products")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Show Catalog of Products :");
+        console.log(data);
+        setProduct(data);
+        setProductsCategory(data);
+        setProductsUnfiltered(data);
       });
-    }*/
+    setUpdated(true);
   }
 
   function handleOnSubmit(e) {
@@ -247,77 +197,11 @@ function App() {
           //const keys = Object.keys(data);
           const value = Object.values(data);
           alert(value);
+          getAllProducts();
         }
       });
       setUpdated(false);
   }
-
-  function getOneProduct(id) {
-    console.log(id);
-    if (id >= 1 && id < 20) {
-      fetch("http://localhost:4000/" + id)
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("Show one product :", id);
-          console.log(data);
-          const dataArr = [];
-          dataArr.push(data);
-          setOneProduct(dataArr);
-        });
-      setViewer2(!viewer2);
-    } else {
-      console.log("Wrong number of Product id.");
-    }
-  }
-
-  const showOneItem = oneProduct.map((el) => (
-    <div className="relative py-0 border-black border-solid border-4 m-4 grid grid-cols-3 bg-orange-100 overscroll-y-auto place-items-center" key={el._id}>
-      <div>
-        <img className="img-fluid m-10 m-10 border-white border-solid border-8 border-line" src={el.image} /> <br />
-      </div>
-      <div className="ml-20 text-1xl text-center font-medium tracking-tight text-black-600 ">
-      <h1><b>Title</b><br /> {el.title}</h1> <br />
-      <h1><b>Category</b><br /> {el.category}</h1> <br />
-      <h1><b>Price</b><br /> {el.price}</h1> <br />
-      {/*<h1><b>Rate</b><br /> {el.rating.rate} and Count:{el.rating.count}</h1> <br />*/}
-      </div>
-    </div>
-  ));
-
-  const showAllItems = product.map((el) => (
-    <div className="relative py-0 border-black border-solid border-4 m-4 grid grid-cols-3 bg-orange-100 overscroll-y-auto place-items-center" key={el._id}>
-      <div>
-        <img className="img-fluid m-10 m-10 border-white border-solid border-8 border-line" src={el.image} /> <br />
-      </div>
-      <div className="ml-20 text-1xl text-center font-medium tracking-tight text-black-600 ">
-      <h1><b>Title</b><br /> {el.title}</h1> <br />
-      <h1><b>Category</b><br /> {el.category}</h1> <br />
-      <h1><b>Price</b><br /> {el.price}</h1> <br />
-      </div>
-    </div>
-  ));
-
-  function getOneByOneProductNext() {
-    if (product.length > 0) {
-      if (index === product.length - 1) setIndex(0);
-      else setIndex(index + 1);
-      if (product.length > 0) setViewer4(true);
-      else setViewer4(false);
-    }
-  }
-
-  function getOneByOneProductPrev() {
-    if (product.length > 0) {
-      if (index === 0) setIndex(product.length - 1);
-      else setIndex(index - 1);
-      if (product.length > 0) setViewer4(true);
-      else setViewer4(false);
-    }
-  }
-
-  useEffect(() => {
-    getAllProducts();
-  }, [checked4]);
 
   function deleteOneProduct(deleteid) {
     console.log("Product to delete :", deleteid);
@@ -334,6 +218,7 @@ function App() {
           const keys = Object.keys(data);
           const value = Object.values(data);
           alert(value);
+          getAllProducts();
         }
       });
     setChecked4(!checked4);
@@ -356,12 +241,42 @@ function App() {
           const value = Object.values(data);
           alert(value);
         }
+        getAllProducts();
       });
       setChecked4(!checked4);
   }
+  //End of Server Requests ----------------------------------------------------------------------------------------
 
 
-  //Renders here ==================================================================================
+  //Helper Renders ==================================================================================
+  const cartItems = singleCart.map((el) => (
+  <div>
+  <div key={el._id} className="relative py-0 border-black border-solid border-4 m-4 grid grid-cols-2 bg-black overscroll-y-auto rounded-lg">
+    <div className="grid bg-gray-600 w-full place-items-center rounded-l-md">
+      <img class="img-fluid w-4/5 my-2 border-white border-solid border-8 rounded-md" src={el.image} />
+    </div>
+    <div className="flex justify-center items-center text-3xl text-center font-mono tracking-tight text-black-600 bg-green-200 rounded-r-md">
+      <div classname="">
+        <div className="">
+          <h1 className="my-3">{howManyofThis(el._id)} <span className="underline">{el.title}</span></h1>
+        </div>
+        <div className="">
+          <h1>Total: ${(el.price * howManyofThis(el._id)).toFixed(2)}</h1>
+        </div>
+      </div>
+      <div className="absolute flex justify-between p-3 bg-green-400 w-1/2 right-0 bottom-0 rounded-br-md">
+        <button  type="button" onClick={() => removeFromCart(el)}>-</button>
+        <p className="mt-1 text-sm text-black">{howManyofThis(el._id)}</p>
+        <button type="button" variant="light" onClick={() => addToCart(el)}>+</button>
+      </div>
+    </div>
+  </div>
+  <div>
+    <br></br>
+  </div>
+  </div>
+  ));
+
   const render_products = (ProductsCategory) => {
     return (
       <div className="category-section fixed mb-20">
@@ -372,8 +287,8 @@ function App() {
           Items ({ProductsCategory.length})
         </h2>
         <div
-          className="m-6 p-3 mb-20 mt-10 ml-0 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-10"
-          style={{ maxHeight: "800px", overflowY: "scroll", paddingBottom: "24%"}}
+          className="m-6 p-3 mb-20 mt-10 ml-0 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-10"
+          style={{ maxHeight: "800px", overflowY: "scroll", paddingBottom: "100%"}}
         >
           {/* Loop Products */}
           {ProductsCategory.map((product, index) => (
@@ -405,13 +320,13 @@ function App() {
                 <p
                   className="text-sm font-medium text-green-600"
                 >
-                  ${product.price}
+                  ${product.price.toFixed(2)}
                 </p>
               </div>
-              
+
             </div>
             <div className="flex justify-between p-3 bg-green-400 rounded-b-lg">
-                <button  type="button" onClick={() => removeFromCart(product)}>-</button>{/*class="small-gray-button"*/}
+                <button  type="button" onClick={() => removeFromCart(product)}>-</button>
                 <p className="mt-1 text-sm text-black">{howManyofThis(product._id)}</p>
                 <button type="button" variant="light" onClick={() => addToCart(product)}>+</button>
               </div>
@@ -421,20 +336,22 @@ function App() {
       </div>
     );
   };
+  //End of Helper Renders ----------------------------------------------------------------------------------------
 
+
+  //View Renders ==================================================================================
   const render_shop = () => {
     return (
       <div>
         {" "}
-        {/*{listItems}*/}
         <div className="flex justify-center pt-2">
         <h3 className="font-semibold text-2xl">Items in cart</h3>
         </div>
         <hr className="w-48 h-1 mx-auto bg-green-300 rounded"></hr>
         <div>{cartItems}</div>
         <div className="flex justify-center pt-2">
-          <p className="px-5 text-2xl font-semibold tracking-tight text-black-600">
-            Total: ${Number((cartTotal).toFixed(2))}
+          <p className="px-5 text-2xl font-semibold tracking-tight text-black-600 text-center">
+            Cart Total: <span className="italic">${Number((cartTotal).toFixed(2))}</span>
           </p>
           </div>
           <div className="flex justify-center pt-2 mb-5">
@@ -450,17 +367,17 @@ function App() {
           
       </div>
     );
-    }
-    //orderSent()
+  }
+
   const render_app = () => {
     return (
-      <div className="flex fixed flex-row">
+      <div className="flex fixed flex-row mb-20">
         {console.log("Step 2 : ReturnApp :", product.length, ProductsCategory.length)}
-        <div className="h-screen bg-gray-700 p-3 xl:basis-1/5" style={{ minWidth: "65%" }}>
-          <div className="px-6 py-4">
+        <div className="h-screen bg-gray-700 p-3 xl:basis-1/5 rounded-tr-3xl" style={{ minWidth: "80%" }}>
+          <div className="px-6 py-4 mb-20">
             <h1 className="text-3xl mb-2 font-bold text-white">
               {" "}
-              Final Project Phase 2
+              Final Project
             </h1>
             <p className="text-gray-700 text-white mb-10">
               by {" "}
@@ -515,35 +432,6 @@ function App() {
           )}
           {render_products(ProductsCategory)}
         </div>
-      </div>
-    );
-  }
-
-  const render_get = () => {
-    return (
-      <div>
-        <div className="flex justify-center pt-2">
-        <button className="bg-blue-300 px-12 mt-2 rounded-lg" onClick={() => getAllProducts()}>Show All products</button>
-        </div>
-        <div className="flex justify-center pt-2 pb-4">
-        <input className="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          type="text"
-          id="message"
-          name="message"
-          placeholder="id"
-          onChange={(e) => getOneProduct(e.target.value)}
-        />
-        </div>
-        <div className="flex justify-center pt-2">
-        <h1 className="font-medium text-lg">Show all available Products</h1>
-        </div>
-        <hr className="w-48 h-1 mx-auto bg-green-300 rounded"></hr>
-        {viewer1 && <div>{showAllItems}</div>}
-        <div className="flex justify-center pt-2">
-        <h1 className="font-medium text-lg">Show one Product by ID</h1>
-        </div>
-        <hr className="w-48 h-1 mx-auto bg-green-300 rounded"></hr>
-        {viewer2 && <div>{showOneItem}</div>}
       </div>
     );
   }
@@ -610,25 +498,6 @@ function App() {
             onChange={handleChange}
           />
           <br />
-          {/*}
-          <label className="bg-blue-300 ml-1 pl-3 pr-5 rounded-l-lg">Rate</label>
-          <input className="ml-3 shadow-md mb-4"
-            type="number"
-            placeholder="rate?"
-            name="rate"
-            value={addNewProduct.rating.rate}
-            onChange={handleChange}
-          />
-          <br /> 
-          <label className="bg-blue-300 ml-1 pl-3 pr-5 rounded-l-lg">Count</label>
-          <input className="ml-3 shadow-md mb-4"
-            type="number"
-            placeholder="count?"
-            name="count"
-            value={addNewProduct.rating.count}
-            onChange={handleChange}
-          />
-          <br />*/}
           <div className="flex justify-center pt-2">
           <button className="px-8 ml-1 py-1 mb-4 rounded-lg bg-green-400" type="submit" onClick={handleOnSubmit}>
             submit
@@ -666,16 +535,13 @@ function App() {
         </button>
         </div>
         {checked4 && (
-          <div className="relative py-0 border-black border-solid border-4 m-4 grid grid-cols-3 bg-orange-100 overscroll-y-auto place-items-center" key={product[index]._id}>
+          <div className="relative py-0 border-black border-solid border-4 m-4 grid grid-cols-3 bg-blue-200 overscroll-y-auto place-items-center" key={product[index]._id}>
             <img class="img-fluid m-10 m-10 border-white border-solid border-8 border-line" src={product[index].image} /> <br />
             <div className="mr-20 text-1xl text-center font-medium tracking-tight text-black-600 ">
               <h1 className="mt-3"><b>ID</b><br /> {product[index]._id}</h1> <br />
               <h1><b>Title</b><br /> {product[index].title}</h1> <br />
               <h1><b>Category</b><br /> {product[index].category}</h1> <br />
               <h1><b>Price</b><br /> {product[index].price}</h1> <br />
-              {/*
-              <h1><b>Rate</b><br /> {product[index].rating.rate}</h1> <br />
-              <h1 className="mb-2"><b>Count</b><br />{product[index].rating.count}</h1> */}
             </div>
           </div>
         )}
@@ -712,16 +578,13 @@ function App() {
         </div>
         {checked4 && (
           <div>
-          <div className="relative py-0 border-black border-solid border-4 m-4 grid grid-cols-3 bg-orange-100 overscroll-y-auto place-items-center" key={product[index]._id}>
+          <div className="relative py-0 border-black border-solid border-4 m-4 grid grid-cols-3 bg-blue-200 overscroll-y-auto place-items-center" key={product[index]._id}>
             <img class="img-fluid m-10 m-10 border-white border-solid border-8 border-line" src={product[index].image} /> <br />
             <div className="mr-20 text-1xl text-center font-medium tracking-tight text-black-600 ">
               <h1 className="mt-3"><b>ID</b><br /> {product[index]._id}</h1> <br />
               <h1><b>Title</b><br /> {product[index].title}</h1> <br />
               <h1><b>Category</b><br /> {product[index].category}</h1> <br />
               <h1><b>Price</b><br /> {product[index].price}</h1> <br />
-              {/*}
-              <h1><b>Rate</b><br /> {product[index].rating.rate}</h1> <br />
-              <h1 className="mb-2"><b>Count</b><br />{product[index].rating.count}</h1>*/}
             </div>
           </div>
           <label className="bg-blue-300 ml-1 pl-3 pr-5 rounded-l-lg">New Price</label>
@@ -741,7 +604,7 @@ function App() {
   const render_about = () => {
     return (
       <div>
-        <div className="flex justify-center pt-2">
+        <div className="flex justify-center pt-2 mt-10">
         <h3 className="font-semibold text-lg">Kyle Kohl and Spencer Thiele</h3>
         </div>
         <div className="flex justify-center pt-2">
@@ -758,12 +621,15 @@ function App() {
         <h3 className="font-semibold text-lg">aaldaco@iastate.edu</h3>
         </div>
         <div className="flex justify-center pt-2">
-        <h3 className="font-semibold text-lg">4/30/2023</h3>
+        <h3 className="font-semibold text-lg">5/5/2023</h3>
         </div>
         <hr className="w-48 h-1 mt-2 mx-auto bg-green-300 rounded"></hr>
         <div className="flex justify-center pt-2">
         <div className="flex justify-center pt-2 flex-wrap w-3/6">
-          <p className="text-center">Welcome to Team 32's Final Project Phase 2! Please import our AllProducts.json file into Mongo to view products.
+          <p className="text-center">Welcome to Team 32's Final Project!
+          We created an online store of fantasy-esque items for adventurers. 
+          Please import our AllProducts.json file into Mongo to view products. The database should be named reactdata
+          and the collection should be named Adventure. Also make sure your URI is mongodb://localhost:27017.
           I hope you enjoy browsing our selection!
           </p>
         </div>
@@ -791,16 +657,15 @@ function App() {
       </div>
     )
   }
-// End of Renders -----------------------------------------------------------------------------------------
-//  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  //End of View Renders -----------------------------------------------------------------------------------------
 
 
+  //View return
   if(view == 0)
   {
     return (
       <div>
         {render_nav()}
-        {render_get()}
       </div>
     );
   }
@@ -862,5 +727,6 @@ function App() {
       </div>
     );
   }
-} // App end
+}
+
 export default App;
